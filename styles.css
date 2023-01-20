@@ -1,0 +1,27 @@
+/* body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  } */
+
+#container {
+    position: absolute;
+    border: 5px dotted aquamarine;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.box {
+    width: 20px;
+    height: 20px;
+}
+
+.line {
+    display: flex;
+}
+
+.box-hov {
+    background-color: black;
+}
