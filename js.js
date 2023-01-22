@@ -1,14 +1,6 @@
 let gridSize = -1
 let exitCondition = false
-
-while (!exitCondition) {
-    gridSize = Number(prompt("Please provide a number between 1 and 100"))
-    
-    if (gridSize >= 1 && gridSize < 100) {
-        exitCondition = true;
-    }
-}
-
+let altKeyPressed = false;
 
 const bodyRef = document.body
 const scriptRef = document.querySelector('script')
@@ -17,9 +9,27 @@ const divContainer = document.createElement('div')
 bodyRef.insertBefore(divContainer,scriptRef)
 divContainer.setAttribute('id','container')
 
+const btn = document.createElement('buton')
+bodyRef.insertBefore(btn,divContainer)
+btn.setAttribute('id','reset-button')
+btn.textContent = "Reset Grid"
+btn.addEventListener('click', resetGrid)
+
+function getSize() {
+    while (!exitCondition) {
+        gridSize = Number(prompt("Please provide a number between 1 and 100"))
+        
+        if (gridSize >= 1 && gridSize < 100) {
+            exitCondition = true;
+        }
+    }
+    return gridSize;
+}
+
 
 function createBoxes(gridSize) {
-let divBoxes = ''
+    let divBoxes = ''
+
     for (let i = 0; i < gridSize; i++){
         divBoxes += '<div class="box"></div>'
     }
@@ -32,28 +42,49 @@ let divBoxes = ''
     }
 }
 
-createBoxes(gridSize)
 
-
-let altKeyPressed = false;
-
-document.addEventListener("keydown", function(event) {
-    if (event.key === "Alt") {
-        altKeyPressed = true;
+function destroyBoxes(){
+    const lines = document.getElementsByClassName("line")
+    while (lines.length > 0 ){
+        lines[0].parentNode.removeChild(lines[0])
     }
-});
-document.addEventListener("keyup", function(event) {
-    if (event.key === "Alt") {
-        altKeyPressed = false;
-    }
-});
-
-const boxes = document.getElementsByClassName("box");
-for (let i = 0; i < boxes.length; i++) {
-    boxes[i].addEventListener("mousemove", function(event) {
-        if (altKeyPressed) {
-            event.target.classList.add('box-hov');
-        }
-    });
 }
 
+function addEventListeners(){
+
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "Alt") {
+            altKeyPressed = true;
+        }
+    });
+    document.addEventListener("keyup", function(event) {
+        if (event.key === "Alt") {
+            altKeyPressed = false;
+        }
+    });
+
+    const boxes = document.getElementsByClassName("box");
+
+    for (let i = 0; i < boxes.length; i++) {
+        boxes[i].addEventListener("mousemove", function(event) {
+            if (altKeyPressed) {
+                event.target.classList.add('box-hov');
+            }
+        });
+    }
+}
+
+function resetGrid() {
+
+    exitCondition = false;
+    gridSize = getSize()
+    destroyBoxes()
+    createBoxes(gridSize)
+    addEventListeners()
+
+}
+
+gridSize = getSize()
+console.log(gridSize)
+createBoxes(gridSize)
+addEventListeners()
