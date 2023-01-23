@@ -1,6 +1,8 @@
 let gridSize = -1
 let exitCondition = false
 let altKeyPressed = false;
+let timesPassed = 0;
+
 
 const bodyRef = document.body
 const scriptRef = document.querySelector('script')
@@ -14,6 +16,7 @@ bodyRef.insertBefore(btn,divContainer)
 btn.setAttribute('id','reset-button')
 btn.textContent = "Reset Grid"
 btn.addEventListener('click', resetGrid)
+
 
 function getSize() {
     while (!exitCondition) {
@@ -29,9 +32,10 @@ function getSize() {
 
 function createBoxes(gridSize) {
     let divBoxes = ''
+    let boxWidth = Math.round(964 / gridSize,2).toString()
 
     for (let i = 0; i < gridSize; i++){
-        divBoxes += '<div class="box"></div>'
+        divBoxes += `<div class="box" style= "width: ${boxWidth}px; height: ${boxWidth}px;"></div>`
     }
 
     for (let j = 0; j < gridSize; j++){
@@ -43,6 +47,16 @@ function createBoxes(gridSize) {
 }
 
 
+function generateRandomColor() {
+    const blackCorrectionFactor = 5.5;
+    let r = Math.max(Math.floor(Math.random()*255) - blackCorrectionFactor * timesPassed, 0);
+    let g = Math.max(Math.floor(Math.random()*255) - blackCorrectionFactor * timesPassed, 0);
+    let b = Math.max(Math.floor(Math.random()*255) - blackCorrectionFactor * timesPassed, 0);
+    timesPassed++
+    return `rgb(${r},${g},${b})`
+}
+
+
 function destroyBoxes(){
     const lines = document.getElementsByClassName("line")
     while (lines.length > 0 ){
@@ -51,7 +65,6 @@ function destroyBoxes(){
 }
 
 function addEventListeners(){
-
     document.addEventListener("keydown", function(event) {
         if (event.key === "Alt") {
             altKeyPressed = true;
@@ -66,16 +79,18 @@ function addEventListeners(){
     const boxes = document.getElementsByClassName("box");
 
     for (let i = 0; i < boxes.length; i++) {
-        boxes[i].addEventListener("mousemove", function(event) {
+        boxes[i].addEventListener("mouseover", function(event) {
             if (altKeyPressed) {
-                event.target.classList.add('box-hov');
+                console.log(1)
+                event.target.style.backgroundColor = `${generateRandomColor()}`
+            } else {
+                timesPassed = 0;
             }
         });
     }
 }
 
 function resetGrid() {
-
     exitCondition = false;
     gridSize = getSize()
     destroyBoxes()
