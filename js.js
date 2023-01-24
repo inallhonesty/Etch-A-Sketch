@@ -2,7 +2,10 @@ let gridSize = -1
 let exitCondition = false
 let altKeyPressed = false;
 let timesPassed = 0;
+let colorChosen = false;
+const availableColors = ["rgb(255,0,0)", "rgb(0,255,0)", "rgb(0,0,255)", "rgb(255,255,0)"]
 
+let bgColor = 'rgb(255,255,255)'
 
 const bodyRef = document.body
 const scriptRef = document.querySelector('script')
@@ -11,10 +14,7 @@ const divContainer = document.createElement('div')
 bodyRef.insertBefore(divContainer,scriptRef)
 divContainer.setAttribute('id','container')
 
-const btn = document.createElement('buton')
-bodyRef.insertBefore(btn,divContainer)
-btn.setAttribute('id','reset-button')
-btn.textContent = "Reset Grid"
+const btn = document.querySelector('#reset-button')
 btn.addEventListener('click', resetGrid)
 
 
@@ -47,13 +47,18 @@ function createBoxes(gridSize) {
 }
 
 
-function generateRandomColor() {
-    const blackCorrectionFactor = 5.5;
-    let r = Math.max(Math.floor(Math.random()*255) - blackCorrectionFactor * timesPassed, 0);
-    let g = Math.max(Math.floor(Math.random()*255) - blackCorrectionFactor * timesPassed, 0);
-    let b = Math.max(Math.floor(Math.random()*255) - blackCorrectionFactor * timesPassed, 0);
-    timesPassed++
-    return `rgb(${r},${g},${b})`
+function generateColor(colorChosen) {
+    if (colorChosen == false) {
+        const blackCorrectionFactor = 5.5;
+        let r = Math.max(Math.floor(Math.random()*255) - blackCorrectionFactor * timesPassed, 0);
+        let g = Math.max(Math.floor(Math.random()*255) - blackCorrectionFactor * timesPassed, 0);
+        let b = Math.max(Math.floor(Math.random()*255) - blackCorrectionFactor * timesPassed, 0);
+        timesPassed++
+        return `rgb(${r},${g},${b})`
+    } else {
+        return bgColor
+    }
+
 }
 
 
@@ -65,6 +70,25 @@ function destroyBoxes(){
 }
 
 function addEventListeners(){
+
+    
+    const colorButtons = document.getElementsByClassName("color-buttons");
+    console.log(colorButtons)
+    for (let i = 0; i < colorButtons.length - 1; i++) {
+        colorButtons[i].addEventListener("click", function(event) {
+            bgColor = availableColors[i]
+            console.log(bgColor)
+            colorChosen = true;
+        })
+    }
+    const randColorButton = document.getElementById("random")
+    randColorButton.addEventListener("click", function(event) {
+        bgColor = generateColor()
+        console.log(bgColor)
+        colorChosen = false;
+    })
+    
+
     document.addEventListener("keydown", function(event) {
         if (event.key === "Alt") {
             altKeyPressed = true;
@@ -76,18 +100,20 @@ function addEventListeners(){
         }
     });
 
+
+
     const boxes = document.getElementsByClassName("box");
 
     for (let i = 0; i < boxes.length; i++) {
         boxes[i].addEventListener("mouseover", function(event) {
             if (altKeyPressed) {
-                console.log(1)
-                event.target.style.backgroundColor = `${generateRandomColor()}`
+                event.target.style.backgroundColor = generateColor(colorChosen)
             } else {
                 timesPassed = 0;
             }
         });
     }
+    console.log(bgColor)
 }
 
 function resetGrid() {
