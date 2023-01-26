@@ -8,7 +8,7 @@ const availableColors = ["rgb(255,0,0)", "rgb(0,255,0)", "rgb(0,0,255)", "rgb(25
 let bgColor = 'rgb(255,255,255)'
 
 const bodyRef = document.body
-const scriptRef = document.querySelectors('script')[0]
+const scriptRef = document.querySelector('#js')
 
 const divContainer = document.createElement('div')
 bodyRef.insertBefore(divContainer,scriptRef)
@@ -83,18 +83,15 @@ function addEventListeners(){
 
     
     const colorButtons = document.getElementsByClassName("color-buttons");
-    console.log(colorButtons)
     for (let i = 0; i < colorButtons.length - 1; i++) {
         colorButtons[i].addEventListener("click", function(event) {
             bgColor = availableColors[i]
-            console.log(bgColor)
             colorChosen = true;
         })
     }
     const randColorButton = document.getElementById("random")
     randColorButton.addEventListener("click", function(event) {
         bgColor = generateColor()
-        console.log(bgColor)
         colorChosen = false;
     })
     
@@ -123,7 +120,6 @@ function addEventListeners(){
             }
         });
     }
-    console.log(bgColor)
 }
 
 function resetGrid() {
@@ -136,6 +132,5 @@ function resetGrid() {
 }
 
 gridSize = getSize()
-console.log(gridSize)
 createBoxes(gridSize)
 addEventListeners()
