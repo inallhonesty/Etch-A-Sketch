@@ -21,7 +21,7 @@ body {
 .line {
     display: flex;
 }
-
+#screenshot-button,
 #reset-button {
     background-color: #ffffff;
     border: 1px solid #d5d9d9;
@@ -45,11 +45,11 @@ body {
     width: auto;
     margin-bottom: 2% 0px;
 }
-
+#screenshot-button:hover,
 #reset-button:hover {
     background-color: #f7fafa;
 }
-
+#screenshot-button:focus,
 #reset-button:focus {
     border-color: #008296;
     box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;

@@ -17,6 +17,16 @@ divContainer.setAttribute('id','container')
 const btn = document.querySelector('#reset-button')
 btn.addEventListener('click', resetGrid)
 
+const scrShot = document.querySelector('#screenshot-button')
+
+scrShot.addEventListener('click', function() {
+    html2canvas(document.querySelector("#container")).then(canvas => {
+        let link = document.createElement('a');
+        link.href = canvas.toDataURL();
+        link.download = "screenshot.png";
+        link.click();
+    });
+  });
 
 function getSize() {
     while (!exitCondition) {
