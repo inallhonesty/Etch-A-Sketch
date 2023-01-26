@@ -45,7 +45,7 @@ function createBoxes(gridSize) {
     let boxWidth = Math.round(964 / gridSize,2).toString()
 
     for (let i = 0; i < gridSize; i++){
-        divBoxes += `<div class="box" style= "width: ${boxWidth}px; height: ${boxWidth}px;"></div>`
+        divBoxes += `<div class="box" style= "width: ${boxWidth}px; height: ${boxWidth}px; background-color: white;"></div>`
     }
 
     for (let j = 0; j < gridSize; j++){
