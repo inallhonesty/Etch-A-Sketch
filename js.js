@@ -8,7 +8,7 @@ const availableColors = ["rgb(255,0,0)", "rgb(0,255,0)", "rgb(0,0,255)", "rgb(25
 let bgColor = 'rgb(255,255,255)'
 
 const bodyRef = document.body
-const scriptRef = document.querySelector('script')
+const scriptRef = document.querySelectors('script')[0]
 
 const divContainer = document.createElement('div')
 bodyRef.insertBefore(divContainer,scriptRef)
